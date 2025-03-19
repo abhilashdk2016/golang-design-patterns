@@ -32,6 +32,20 @@
                     </span>
                 </pre>
             </div>
+
+            <hr class="mt-4" />
+            <h3>Builder Pattern</h3>
+            <div>
+                <a href="javascript:void(0);" id="dog-builder-btn" class="btn btn-outline-secondary">Build Dog</a>
+                <a href="javascript:void(0);" id="cat-builder-btn" class="btn btn-outline-secondary">Build Cat</a>
+            </div>
+            <div class="mt-2" syle="outline: 1px solid silver; padding: 2em;">
+                <pre id="builder-output">
+                    <span class="text-muted">
+                        Nothing received yet...
+                    </span>
+                </pre>
+            </div>
         </div>
     </div>
 </div>
@@ -46,6 +60,10 @@
     let dogAbstractFactoryButton = document.getElementById("dog-factory-abstract-btn");
     let catAbstractFactoryButton = document.getElementById("cat-factory-abstract-btn");
     let dogAbstractFactoryOutput = document.getElementById("abstract-factory-output");
+
+    let dogBuilderButton = document.getElementById("dog-builder-btn");
+    let catBuilderButton = document.getElementById("cat-builder-btn");
+    let builterOutput = document.getElementById("builder-output");
 
     document.addEventListener("DOMContentLoaded", function(){
         dogFactoryButton.addEventListener("click", function(){
@@ -90,6 +108,30 @@
                     dogAbstractFactoryOutput.innerHTML = data.error;
                 } else {
                     dogAbstractFactoryOutput.innerHTML = JSON.stringify(data, undefined, 4);
+                }
+            })
+        });
+
+        dogBuilderButton.addEventListener("click", function(){
+            fetch("/api/dog-from-builder", { method: 'get'})
+            .then(response => response.json())
+            .then(data => {
+                if(data.error) {
+                    builterOutput.innerHTML = data.error;
+                } else {
+                    builterOutput.innerHTML = JSON.stringify(data, undefined, 4);
+                }
+            })
+        });
+
+        catBuilderButton.addEventListener("click", function(){
+            fetch("/api/cat-from-builder", { method: 'get'})
+            .then(response => response.json())
+            .then(data => {
+                if(data.error) {
+                    builterOutput.innerHTML = data.error;
+                } else {
+                    builterOutput.innerHTML = JSON.stringify(data, undefined, 4);
                 }
             })
         });
