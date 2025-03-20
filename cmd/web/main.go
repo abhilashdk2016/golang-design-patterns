@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/abhilashdk2016/golang-design-patterns/adapters"
 	"github.com/abhilashdk2016/golang-design-patterns/configuration"
 )
 
@@ -17,7 +18,6 @@ type application struct {
 	templateMap map[string]*template.Template
 	config      appConfig
 	App         *configuration.Application
-	catSevice   *RemoteService
 }
 
 type appConfig struct {
@@ -38,12 +38,11 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	// jsonBackend := &JSONBackend{}
-	// jsonAdapter := &RemoteService{Remote: jsonBackend}
-	xmlBackend := &XMLBackend{}
-	xmlAdapter := &RemoteService{Remote: xmlBackend}
-	app.catSevice = xmlAdapter
-	app.App = configuration.New(db)
+	// jsonBackend := &adapters.JSONBackend{}
+	// jsonAdapter := &adapters.RemoteService{Remote: jsonBackend}
+	xmlBackend := &adapters.XMLBackend{}
+	xmlAdapter := &adapters.RemoteService{Remote: xmlBackend}
+	app.App = configuration.New(db, xmlAdapter)
 
 	srv := &http.Server{
 		Addr:              port,

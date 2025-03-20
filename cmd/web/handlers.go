@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/abhilashdk2016/golang-design-patterns/pets"
 	"github.com/abhilashdk2016/toolkit/v2"
@@ -98,9 +99,22 @@ func (app *application) CeateCatWithBuilder(w http.ResponseWriter, r *http.Reque
 func (app *application) GetAllCatBreedsWithAdapter(w http.ResponseWriter, r *http.Request) {
 	var t toolkit.Tools
 
-	carBreeds, err := app.catSevice.GetAllBreeds()
+	carBreeds, err := app.App.CatSevice.GetAllBreeds()
 	if err != nil {
 		_ = t.ErrorJSON(w, err, http.StatusBadRequest)
 	}
 	_ = t.WriteJSON(w, http.StatusOK, carBreeds)
+}
+
+func (app *application) AnimalFromAbstractFactory(w http.ResponseWriter, r *http.Request) {
+	var t toolkit.Tools
+	species := chi.URLParam(r, "species")
+	b := chi.URLParam(r, "breed")
+	breed, _ := url.QueryUnescape(b)
+	pet, err := pets.NewPetWithBreedFromAbstractfactory(species, breed)
+	if err != nil {
+		_ = t.ErrorJSON(w, err, http.StatusBadRequest)
+	}
+	_ = t.WriteJSON(w, http.StatusOK, pet)
+
 }

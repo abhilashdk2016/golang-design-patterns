@@ -4,6 +4,7 @@ import "database/sql"
 
 type Repository interface {
 	AllDogBreeds() ([]*DogBreed, error)
+	GetBreedByName(breed string) (*DogBreed, error)
 }
 
 type mysqlRepository struct {
