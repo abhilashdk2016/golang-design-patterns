@@ -26,6 +26,7 @@ func (app *application) routes() http.Handler {
 	mux.Get("/api/dog-breeds", app.GetAllDogBreedsJSON)
 	mux.Get("/api/dog-from-builder", app.CeateDogWithBuilder)
 	mux.Get("/api/cat-from-builder", app.CeateCatWithBuilder)
+	mux.Get("/api/cat-breeds", app.GetAllCatBreedsWithAdapter)
 
 	mux.Get("/", app.ShowHome)
 	mux.Get("/{page}", app.ShowPage)

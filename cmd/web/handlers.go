@@ -94,3 +94,13 @@ func (app *application) CeateCatWithBuilder(w http.ResponseWriter, r *http.Reque
 	}
 	_ = t.WriteJSON(w, http.StatusOK, p)
 }
+
+func (app *application) GetAllCatBreedsWithAdapter(w http.ResponseWriter, r *http.Request) {
+	var t toolkit.Tools
+
+	carBreeds, err := app.catSevice.GetAllBreeds()
+	if err != nil {
+		_ = t.ErrorJSON(w, err, http.StatusBadRequest)
+	}
+	_ = t.WriteJSON(w, http.StatusOK, carBreeds)
+}
