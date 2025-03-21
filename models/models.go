@@ -9,6 +9,7 @@ var repo Repository
 
 type Models struct {
 	DogBreed DogBreed
+	Dog      Dog
 }
 
 func New(conn *sql.DB) *Models {
@@ -40,6 +41,10 @@ func (d *DogBreed) All() ([]*DogBreed, error) {
 
 func (d *DogBreed) GetBreedByName(b string) (*DogBreed, error) {
 	return repo.GetBreedByName(b)
+}
+
+func (d *Dog) GetDogOfMonthById(id int) (*DogOfMonth, error) {
+	return repo.GetDogOfMonthById(id)
 }
 
 type CatBreed struct {
@@ -104,4 +109,11 @@ type Pet struct {
 	MaxWeight   int    `json:"max_weight"`
 	Description string `json:"description"`
 	Lifespan    int    `json:"lifespan"`
+}
+
+type DogOfMonth struct {
+	ID    int
+	Dog   *Dog
+	Video string
+	Image string
 }

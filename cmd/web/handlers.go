@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"time"
 
+	"github.com/abhilashdk2016/golang-design-patterns/models"
 	"github.com/abhilashdk2016/golang-design-patterns/pets"
 	"github.com/abhilashdk2016/toolkit/v2"
 	"github.com/go-chi/chi/v5"
@@ -116,5 +118,31 @@ func (app *application) AnimalFromAbstractFactory(w http.ResponseWriter, r *http
 		_ = t.ErrorJSON(w, err, http.StatusBadRequest)
 	}
 	_ = t.WriteJSON(w, http.StatusOK, pet)
+}
 
+func (app *application) DogOfMonth(w http.ResponseWriter, r *http.Request) {
+	breed, _ := app.App.Models.DogBreed.GetBreedByName("German Shepherd Dog")
+	dom, _ := app.App.Models.Dog.GetDogOfMonthById(1)
+	layout := "2006-01-02"
+	dob, _ := time.Parse(layout, "2023-12-02")
+	dog := models.DogOfMonth{
+		Dog: &models.Dog{
+			ID:               1,
+			DogName:          "Sam",
+			BreedID:          breed.ID,
+			Color:            "Black & Tan",
+			DateOfBirth:      dob,
+			SpayedOrNeutered: 0,
+			Description:      "Sam is a very good boy",
+			Weight:           20,
+			Breed:            *breed,
+		},
+		Video: dom.Video,
+		Image: dom.Image,
+	}
+
+	data := make(map[string]any)
+	data["dog"] = dog
+
+	app.render(w, "dog-of-month.page.gohtml", &templateData{Data: data})
 }
